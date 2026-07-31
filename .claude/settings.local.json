@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(sips -g pixelWidth -g pixelHeight /Users/tatiana/speech-academy/assets/img/lesson-poster.jpg)",
+      "Bash(sips -g pixelWidth -g pixelHeight assets/img/bg.jpg)"
+    ]
+  }
+}

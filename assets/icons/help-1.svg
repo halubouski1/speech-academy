@@ -1,0 +1,22 @@
+<svg width="77" height="77" viewBox="0 0 77 77" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="mask0_52_152" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="21" y="25" width="39" height="28">
+<rect x="22.5" y="26.5" width="31" height="25" rx="5" stroke="#D6A86B" stroke-width="2"/>
+<path d="M53.5 36L58.5 32.5V39V45L53.5 42.1132" stroke="#D6A86B" stroke-width="2"/>
+<circle cx="32" cy="34" r="3.5" fill="#D6A86B"/>
+</mask>
+<g mask="url(#mask0_52_152)">
+<ellipse cx="38.902" cy="39.3726" rx="27.402" ry="24.8725" fill="url(#paint0_linear_52_152)"/>
+</g>
+<foreignObject x="-9.2" y="-9.2" width="95.4" height="95.4"><div xmlns="http://www.w3.org/1999/xhtml" style="backdrop-filter:blur(4.6px);clip-path:url(#bgblur_0_52_152_clip_path);height:100%;width:100%"></div></foreignObject><circle data-figma-bg-blur-radius="9.2" cx="38.5" cy="38.5" r="37" stroke="url(#paint1_linear_52_152)" stroke-width="3"/>
+<defs>
+<clipPath id="bgblur_0_52_152_clip_path" transform="translate(9.2 9.2)"><circle cx="38.5" cy="38.5" r="37"/>
+</clipPath><linearGradient id="paint0_linear_52_152" x1="38.902" y1="14.5" x2="38.902" y2="64.2451" gradientUnits="userSpaceOnUse">
+<stop offset="0.471154" stop-color="#D6A86B"/>
+<stop offset="1" stop-color="#705838"/>
+</linearGradient>
+<linearGradient id="paint1_linear_52_152" x1="38.5" y1="1.5" x2="38.5" y2="75.5" gradientUnits="userSpaceOnUse">
+<stop stop-color="#D6A86B"/>
+<stop offset="1" stop-color="#977343"/>
+</linearGradient>
+</defs>
+</svg>
