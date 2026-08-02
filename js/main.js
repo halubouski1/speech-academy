@@ -384,7 +384,14 @@ document.addEventListener('click', (event) => {
 // ========================================
 document.addEventListener('click', (event) => {
   // anywhere on the card, not just the play button
-  const wrap = event.target.closest('.card, .about__video');
+  const trigger = event.target.closest('.card, .about__video, .about__btn');
+  if (!trigger) return;
+
+  // the about button sits outside the video, so it points at it
+  const wrap = trigger.classList.contains('about__btn')
+    ? document.querySelector('.about__video')
+    : trigger;
+
   // once playing, clicks belong to the native controls
   if (!wrap || wrap.classList.contains('is-playing')) return;
 
@@ -394,4 +401,9 @@ document.addEventListener('click', (event) => {
   video.controls = true;
   wrap.classList.add('is-playing');
   video.play();
+
+  if (trigger.classList.contains('about__btn')) {
+    if (lenis) lenis.scrollTo(wrap, { offset: -100, duration: 1.2 });
+    else wrap.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
 });
