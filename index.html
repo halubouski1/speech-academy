@@ -17,7 +17,10 @@
 <header class="header">
     <div class="container header__container">
         <a class="header__logo" href="#hero">
-            <img src="assets/icons/logo.svg" alt="Академия голоса Михаила Леонова" width="257" height="75">
+            <picture>
+                <source media="(max-width: 620px)" srcset="assets/icons/logo-mobile.svg">
+                <img src="assets/icons/logo.svg" alt="Академия голоса Михаила Леонова" width="257" height="75">
+            </picture>
         </a>
 
         <button class="header__burger" type="button" aria-label="Открыть меню" aria-controls="menu" aria-expanded="false">
@@ -41,31 +44,31 @@
                     </a>
                 </li>
                 <li class="menu__item">
-                    <a class="menu__link" href="#">
+                    <a class="menu__link" href="#about">
                         <img src="assets/icons/menu-2.svg" alt="" width="30" height="30">
                         <span>Об академии</span>
                     </a>
                 </li>
                 <li class="menu__item">
-                    <a class="menu__link" href="#">
+                    <a class="menu__link" href="#program">
                         <img src="assets/icons/menu-3.svg" alt="" width="24" height="24">
                         <span>Программа</span>
                     </a>
                 </li>
                 <li class="menu__item">
-                    <a class="menu__link" href="#">
+                    <a class="menu__link" href="#free-lesson">
                         <img src="assets/icons/menu-4.svg" alt="" width="30" height="30">
                         <span>Бесплатный курс</span>
                     </a>
                 </li>
                 <li class="menu__item">
-                    <a class="menu__link" href="#">
+                    <a class="menu__link" href="#skills">
                         <img src="assets/icons/menu-5.svg" alt="" width="30" height="30">
                         <span>Чему научитесь</span>
                     </a>
                 </li>
                 <li class="menu__item">
-                    <a class="menu__link" href="#">
+                    <a class="menu__link" href="#tariffs">
                         <img src="assets/icons/menu-6.svg" alt="" width="30" height="30">
                         <span>Тарифы</span>
                     </a>
@@ -84,7 +87,7 @@
     <section class="hero" id="hero">
         <div class="container hero__container">
             <h1 class="hero__title">
-                Твой голос
+                Твой <br class="hero__title-br"> голос
                 <span class="hero__title-accent">Главный инструмент<br>влияния и успеха</span>
             </h1>
 
@@ -110,17 +113,17 @@
                     <a class="btn btn--outline" href="#"><span>Забрать пробный урок</span></a>
                 </div>
 
-                <button class="hero__video" type="button">
+                <a class="hero__video" href="#about">
                     <span class="hero__video-icon">
                         <img src="assets/icons/play.svg" alt="" width="18" height="21">
                     </span>
                     <span class="hero__video-text">Смотреть видео<br>об академии</span>
-                </button>
+                </a>
             </div>
         </div>
     </section>
 
-    <section class="effect">
+    <section class="effect" data-aos="fade-up">
         <div class="container">
             <h2 class="effect__title">Эффект уже после первого занятия</h2>
         </div>
@@ -130,7 +133,10 @@
                 <div class="swiper-wrapper">
                     <div class="swiper-slide">
                         <article class="card">
-                            <img class="card__poster" src="assets/img/slider-poster-1.jpg" alt="" width="269" height="229">
+                            <video class="card__video"
+                                   src="vid/slider-card-1.mp4"
+                                   poster="assets/img/slider-poster-1.jpg"
+                                   playsinline preload="none"></video>
                             <button class="card__play" type="button" aria-label="Смотреть видео">
                                 <img src="assets/icons/play-slider.svg" alt="" width="43" height="43">
                             </button>
@@ -140,7 +146,10 @@
 
                     <div class="swiper-slide">
                         <article class="card">
-                            <img class="card__poster" src="assets/img/slider-poster-2.jpg" alt="" width="269" height="229">
+                            <video class="card__video"
+                                   src="vid/slider-card-2.mp4"
+                                   poster="assets/img/slider-poster-2.jpg"
+                                   playsinline preload="none"></video>
                             <button class="card__play" type="button" aria-label="Смотреть видео">
                                 <img src="assets/icons/play-slider.svg" alt="" width="43" height="43">
                             </button>
@@ -150,7 +159,10 @@
 
                     <div class="swiper-slide">
                         <article class="card">
-                            <img class="card__poster" src="assets/img/slider-poster-3.jpg" alt="" width="269" height="229">
+                            <video class="card__video"
+                                   src="vid/slider-card-3.mp4"
+                                   poster="assets/img/slider-poster-3.jpg"
+                                   playsinline preload="none"></video>
                             <button class="card__play" type="button" aria-label="Смотреть видео">
                                 <img src="assets/icons/play-slider.svg" alt="" width="43" height="43">
                             </button>
@@ -160,46 +172,10 @@
 
                     <div class="swiper-slide">
                         <article class="card">
-                            <img class="card__poster" src="assets/img/slider-poster-4.jpg" alt="" width="269" height="229">
-                            <button class="card__play" type="button" aria-label="Смотреть видео">
-                                <img src="assets/icons/play-slider.svg" alt="" width="43" height="43">
-                            </button>
-                            <span class="card__title">Выразительность</span>
-                        </article>
-                    </div>
-                    <div class="swiper-slide">
-                        <article class="card">
-                            <img class="card__poster" src="assets/img/slider-poster-1.jpg" alt="" width="269" height="229">
-                            <button class="card__play" type="button" aria-label="Смотреть видео">
-                                <img src="assets/icons/play-slider.svg" alt="" width="43" height="43">
-                            </button>
-                            <span class="card__title">Увереность в голосе</span>
-                        </article>
-                    </div>
-
-                    <div class="swiper-slide">
-                        <article class="card">
-                            <img class="card__poster" src="assets/img/slider-poster-2.jpg" alt="" width="269" height="229">
-                            <button class="card__play" type="button" aria-label="Смотреть видео">
-                                <img src="assets/icons/play-slider.svg" alt="" width="43" height="43">
-                            </button>
-                            <span class="card__title">Четкость и дикция</span>
-                        </article>
-                    </div>
-
-                    <div class="swiper-slide">
-                        <article class="card">
-                            <img class="card__poster" src="assets/img/slider-poster-3.jpg" alt="" width="269" height="229">
-                            <button class="card__play" type="button" aria-label="Смотреть видео">
-                                <img src="assets/icons/play-slider.svg" alt="" width="43" height="43">
-                            </button>
-                            <span class="card__title">Сила и харизма</span>
-                        </article>
-                    </div>
-
-                    <div class="swiper-slide">
-                        <article class="card">
-                            <img class="card__poster" src="assets/img/slider-poster-4.jpg" alt="" width="269" height="229">
+                            <video class="card__video"
+                                   src="vid/slider-card-4.mp4"
+                                   poster="assets/img/slider-poster-4.jpg"
+                                   playsinline preload="none"></video>
                             <button class="card__play" type="button" aria-label="Смотреть видео">
                                 <img src="assets/icons/play-slider.svg" alt="" width="43" height="43">
                             </button>
@@ -222,7 +198,7 @@
         </div>
     </section>
 
-    <section class="about">
+    <section class="about" id="about" data-aos="fade-up">
         <div class="container about__container">
             <div class="about__content">
                 <h2 class="about__title">О нас</h2>
@@ -244,15 +220,19 @@
             </div>
 
             <div class="about__video">
-                <img class="about__poster" src="assets/img/about-us-poster.jpg" alt="" width="743" height="345">
+                <video class="about__poster"
+                       src="vid/about-us.mp4"
+                       poster="assets/img/about-us-poster.jpg"
+                       playsinline preload="none"></video>
                 <button class="about__play" type="button" aria-label="Смотреть видео о нас">
                     <img src="assets/icons/play-about.svg" alt="" width="43" height="43">
+                    <span class="about__play-text">Смотреть видео о нас</span>
                 </button>
             </div>
         </div>
     </section>
 
-    <section class="help">
+    <section class="help" data-aos="fade-up">
         <div class="container">
             <div class="help__line"></div>
 
@@ -326,17 +306,19 @@
         </div>
     </section>
 
-    <section class="lesson">
+    <section class="lesson" id="free-lesson" data-aos="fade-up">
         <div class="container">
             <div class="lesson__inner">
                 <img class="lesson__poster" src="assets/img/lesson-poster.jpg" alt="" width="444" height="310">
 
                 <div class="lesson__content">
                     <span class="lesson__label">ВИДЕОУРОК:</span>
-                    <span class="lesson__title">3 УПРАЖНЕНИЯ КАК УЛУЧШИТЬ СВОЙ ГОЛОС ВСЕГО ЗА 5 МИНУТ</span>
+                    <span class="lesson__title">3 УПРАЖНЕНИЯ КАК УЛУЧШИТЬ СВОЙ ГОЛОС <br class="lesson__title-br"> ВСЕГО ЗА 5 МИНУТ</span>
 
                     <span class="lesson__old-price">ЦЕНА: <span class="lesson__old-price-value">1 900 ₽</span></span>
                     <span class="lesson__price">0 ₽</span>
+
+                    <span class="lesson__timer-title">ДО КОНЦА АКЦИИ ОСТАЛОСЬ:</span>
 
                     <div class="lesson__bottom">
                         <div class="lesson__timer" data-duration-days="2">
@@ -365,7 +347,7 @@
         </div>
     </section>
 
-    <section class="course-for">
+    <section class="course-for" data-aos="fade-up">
         <div class="container">
             <h2 class="course-for__title">Наш курс создан для:</h2>
             <span class="course-for__divider"></span>
@@ -419,9 +401,11 @@
         </div>
     </section>
 
-    <section class="weeks">
+    <section class="weeks" id="program" data-aos="fade-up">
         <div class="container">
-            <div class="weeks__line"></div>
+            <div class="weeks__line">
+                <img class="weeks__mic" src="assets/img/mobile-mic.png" alt="" width="16" height="39">
+            </div>
 
             <span class="weeks__label">За 30 минут в день</span>
             <h2 class="weeks__title">Через 5 недель вы не узнаете свой голос и станете говорить увереннее</h2>
@@ -458,7 +442,7 @@
         </div>
     </section>
 
-    <section class="test">
+    <section class="test" data-aos="fade-up">
         <div class="container">
             <div class="test__box">
                 <span class="test__box-title">И всё это:</span>
@@ -481,7 +465,7 @@
 
             <div class="test__content">
                 <span class="test__label">Пройди тест своего голоса</span>
-                <span class="test__title">И получи первый бесплатный пробный урок от Михаила Леонова</span>
+                <span class="test__title">И получи первый <span class="test__title-accent">бесплатный</span> пробный урок от Михаила Леонова</span>
 
                 <ul class="test__list">
                     <li class="test__list-item">
@@ -509,7 +493,12 @@
         </div>
     </section>
 
-    <section class="everything">
+    <!-- filled by JS on mobile with the title, list and button from .test__content -->
+    <section class="test-cta">
+        <div class="container"></div>
+    </section>
+
+    <section class="everything" id="skills" data-aos="fade-up">
         <div class="container">
             <span class="everything__title">
                 На нашем курсе вы приобретете <span class="everything__title-accent">все необходимое,</span>
@@ -587,10 +576,15 @@
                     <p class="everything__text">будете легко вовлекать слушателя в диалог и быстро подбирать нужные слова</p>
                 </li>
             </ul>
+
+            <p class="everything__note">
+                <img src="assets/icons/info.svg" alt="" width="25" height="25">
+                <span>Нажмите на любой пункт, что бы узнать подробнее</span>
+            </p>
         </div>
     </section>
 
-    <section class="tariffs">
+    <section class="tariffs" id="tariffs" data-aos="fade-up">
       <div class="tariffs__line"></div>
         <div class="container">
 
@@ -737,11 +731,13 @@
         </div>
     </section>
 
-    <section class="transformation">
+    <section class="transformation" data-aos="fade-up">
       <div class="transformation__line"></div>
         <div class="container">
 
-            <h2 class="transformation__title">Трансформация вашего образа через 5 недель</h2>
+            <h2 class="transformation__title"><span class="transformation__title-accent">Трансформация вашего образа</span> через 5 недель</h2>
+
+            <span class="transformation__intro">Вы прокачаете ключевые навыки и станете уверенным оратором в любой ситуации</span>
 
             <div class="transformation__body">
                 <img class="transformation__mic" src="assets/img/transfotmation-mic.png" alt="" width="200" height="421">
@@ -815,11 +811,15 @@
         </div>
     </section>
 
-    <section class="start">
+    <section class="start" data-aos="fade-up">
+        <div class="start__line">
+            <img class="start__mic" src="assets/img/mobile-mic.png" alt="" width="16" height="39">
+        </div>
         <div class="container">
+
             <div class="start__inner">
                 <div class="start__left">
-                    <h2 class="start__title">Старт курса через</h2>
+                    <h2 class="start__title">Старт курса <span class="start__title-accent">через</span></h2>
 
                     <div class="start__timer" data-duration-days="2">
                         <div class="start__cell">
@@ -895,26 +895,26 @@
             <span class="popup__line"></span>
 
             <span class="popup__price">9 900 ₽</span>
-            <p class="popup__text">быстрый старт для тех, кто хочет за две недели услышать свой новый голос и снять зажимы</p>
+            <p class="popup__text">короткая интенсивная программа для тех, кому нужно быстро улучшить звучание голоса, обрести уверенность и начать говорить красиво уже сейчас</p>
         </div>
 
         <div class="popup__divider"></div>
 
         <ul class="popup__list">
                     <li class="popup__item">
-                        <span>2 недели практики:</span> ежедневные короткие упражнения на дыхание, дикцию и подачу. Всего 30 минут в день, а результат слышен уже к концу первой недели
+                        <span>2 недели практики:</span> Видеоуроки, домашние задания и учебный материал. Ваш голос преобразится, станет более глубоким, бархатистым и красивым. Вы перейдете на новый уровень уверенности и свободы
                     </li>
                     <li class="popup__item">
-                        <span>Работа в команде:</span> занятия в мини-группе, где можно тренироваться на живых людях и сразу видеть, как ваша речь считывается со стороны
+                        <span>Работа в команде:</span> Обмениваемся опытом и растем быстрее вместе с единомышленниками
                     </li>
                     <li class="popup__item">
-                        <span>Живое менторство:</span> разбор ваших записей преподавателем и точечные рекомендации, что именно исправить в вашем случае
+                        <span>Живое менторство:</span> Мы на связи с вами лично
                     </li>
                     <li class="popup__item">
-                        <span>Персональный фокус:</span> план работы, собранный под вашу задачу: собеседование, созвон, публичное выступление или свидание
+                        <span>Персональный фокус:</span> Разбираем именно ваши выступления, докручивая каждую подачу до совершенства
                     </li>
                     <li class="popup__item">
-                        <span>Ваш рабочий хаб:</span> доступ к материалам, записям занятий и чек-листам, к которым можно вернуться в любой момент
+                        <span>Ваш рабочий хаб:</span> Современная платформа, где ваш голос, тексты и уверенность превращаются в системный навык
                     </li>
         </ul>
 
@@ -936,32 +936,29 @@
             <span class="popup__line"></span>
 
             <span class="popup__price">15 900 ₽</span>
-            <p class="popup__text">полная программа для тех, кто хочет системно поставить голос, речь и уверенность в общении</p>
+            <p class="popup__text">системная программа, которая поможет вам развить сильный голос, уверенность и навыки влияния для достижения ваших целей</p>
         </div>
 
         <div class="popup__divider"></div>
 
         <ul class="popup__list">
                     <li class="popup__item">
-                        <span>Пошаговая система:</span> программа на 45 дней, где каждый блок опирается на предыдущий: от дыхания и опоры до свободной импровизации
+                        <span>Голос как оружие:</span> Постановка речи, дикции и работа над тем, как ваше тело «говорит» за вас (невербалика, харизма)
                     </li>
                     <li class="popup__item">
-                        <span>Голос как оружие:</span> работа над тембром, объемом и глубиной звучания, чтобы вас слушали и не переспрашивали
+                        <span>Психология влияния:</span> Вы узнаете, как управлять состоянием собеседника и добиваться своего в любых переговорах
                     </li>
                     <li class="popup__item">
-                        <span>Психология влияния:</span> разбор того, как аргумент, пауза и интонация меняют решение собеседника в вашу пользу
+                        <span>Работа в команде:</span> Окружение сильных людей, которые станут вашей поддержкой и «тренажером» для выступлений
                     </li>
                     <li class="popup__item">
-                        <span>Работа в команде:</span> регулярная практика в группе: спарринги, разборы и обратная связь от других участников
+                        <span>Живой контакт:</span> Никакой «записи в стол». Только живое общение с преподавателями и обратная связь, которая реально меняет результат
                     </li>
                     <li class="popup__item">
-                        <span>Живой контакт:</span> онлайн-встречи с преподавателем, где можно задать вопрос и отработать сложную для вас ситуацию
+                        <span>Персональный фокус:</span> Индивидуальный аудит ваших выступлений и «докрутка» ваших текстов до уровня лидера
                     </li>
                     <li class="popup__item">
-                        <span>Персональный фокус:</span> индивидуальные задания под ваш запрос и точки роста, которые видит преподаватель
-                    </li>
-                    <li class="popup__item">
-                        <span>Ваш рабочий хаб:</span> все материалы, записи и упражнения собраны в одном месте с бессрочным доступом
+                        <span>Ваш рабочий хаб:</span> Удобная платформа для анализа речи, создания сценариев выступлений и хранения всех материалов
                     </li>
         </ul>
 
@@ -1014,7 +1011,6 @@
         <button class="btn btn--gold popup__btn" type="button">Записаться на курс</button>
     </div>
 </div>
-
 <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>

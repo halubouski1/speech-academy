@@ -151,10 +151,13 @@ ul {
 /* ==========================================================================
    Container
    ========================================================================== */
+/* --container-pad is what full-bleed elements offset against, so they stay
+   in step with the padding whenever it changes at a breakpoint */
 .container {
+    --container-pad: 50px;
     width: 100%;
-    padding-left: 50px;
-    padding-right: 50px;
+    padding-left: var(--container-pad);
+    padding-right: var(--container-pad);
 }
 
 /* ==========================================================================
@@ -255,7 +258,7 @@ ul {
    ========================================================================== */
 .hero {
     padding-top: 140px;
-    height: 100vh;
+    height: var(--fixed-vh, 100vh);
     display: flex;
     justify-content: end;
     padding-bottom: 50px;
@@ -270,6 +273,10 @@ ul {
     display: flex;
     flex-direction: column;
     justify-content: end;
+}
+
+.hero__title-br {
+  display: none;
 }
 
 .hero__title {
@@ -466,10 +473,20 @@ ul {
     border-radius: 5px;
 }
 
-.card__poster {
+.card__poster,
+.card__video {
     width: 100%;
     height: 100%;
     object-fit: cover;
+}
+
+/* the overlay steps aside once playback starts */
+.card.is-playing .card__play,
+.card.is-playing .card__title,
+.about__video.is-playing .about__play {
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
 }
 
 .card__play {
@@ -482,9 +499,21 @@ ul {
     transition: transform 0.3s ease;
 }
 
-.card__play:hover,
-.about__play:hover {
+/* the whole card is the hit area, not just the play button */
+.card,
+.about__video {
+    cursor: pointer;
+}
+
+.card:hover .card__play,
+.about__video:hover .about__play {
     transform: translate(-50%, -50%) scale(1.08);
+}
+
+/* once it's playing the native controls take over */
+.card.is-playing,
+.about__video.is-playing {
+    cursor: default;
 }
 
 .card__title {
@@ -513,7 +542,7 @@ ul {
 .about__container {
     display: flex;
     gap: 15px;
-    align-items: flex-start;
+    align-items: center;
     justify-content: space-between;
 }
 
@@ -556,8 +585,8 @@ ul {
     position: relative;
     flex-shrink: 0;
     overflow: hidden;
-    width: 743px;
-    aspect-ratio: 743 / 345;
+    width: 400px;
+    height: 500px;
     border: 2px solid rgba(214, 168, 107, 0.35);
     border-radius: 5px;
 }
@@ -579,6 +608,11 @@ ul {
 .about__play img {
   width: 80px;
   height: 80px;
+}
+
+/* the standalone button carries this label on desktop - see media.css */
+.about__play-text {
+    display: none;
 }
 
 /* ==========================================================================
@@ -665,6 +699,10 @@ ul {
     padding-bottom: 35px;
 }
 
+.lesson__title-br {
+    display: none;
+}
+
 .lesson__inner {
     display: flex;
     align-items: center;
@@ -672,6 +710,10 @@ ul {
     padding: 32px 24px 32px 32px;
     border: 1px solid rgba(214, 168, 107, 0.35);
     border-radius: 10px;
+}
+
+.lesson__timer-title {
+    display: none;
 }
 
 .lesson__poster {
@@ -727,7 +769,8 @@ ul {
 .lesson__bottom {
     display: flex;
     align-items: center;
-    gap: 28px;
+    flex-wrap: wrap;
+    gap: 27px;
     margin-top: 38px;
 }
 
@@ -865,6 +908,11 @@ ul {
     height: 1px;
     margin-bottom: 22px;
     background-image: var(--divider-center);
+}
+
+/* only sits in the line on mobile - see media.css */
+.weeks__mic {
+    display: none;
 }
 
 .weeks__label {
@@ -1050,6 +1098,11 @@ ul {
     margin-right: 80px;
 }
 
+/* mobile only - see media.css */
+.test-cta {
+    display: none;
+}
+
 .test__label {
     display: block;
     font-family: 'Cormorant Garamond', Georgia, serif;
@@ -1149,7 +1202,7 @@ ul {
 }
 
 .everything__card img {
-  margin: 0 auto 25px;
+  margin-top: auto;
 }
 
 .everything__name {
@@ -1314,7 +1367,8 @@ ul {
     height: 55px;
 }
 
-.tariffs__note {
+.tariffs__note,
+.everything__note {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1326,8 +1380,14 @@ ul {
     color: #977343;
 }
 
-.tariffs__note img {
+.tariffs__note img,
+.everything__note img {
     flex-shrink: 0;
+}
+
+/* the cards are only tappable on mobile - see media.css */
+.everything__note {
+    display: none;
 }
 
 /* ==========================================================================
@@ -1352,6 +1412,11 @@ ul {
     text-transform: uppercase;
     text-align: center;
     color: #f6f2ec;
+}
+
+/* mobile only - see media.css */
+.transformation__intro {
+    display: none;
 }
 
 .transformation__body {
@@ -1404,6 +1469,11 @@ ul {
   .start {
     padding-top: 35px;
   }
+
+/* mobile only - see media.css */
+.start__line {
+    display: none;
+}
 
 .start__inner {
     display: flex;
@@ -1669,13 +1739,15 @@ body.is-locked {
 }
 
 .popup__panel {
+    /* the full-bleed divider offsets against this, so they stay in step */
+    --popup-pad: 40px;
     position: relative;
     overflow: hidden;
     width: 540px;
     max-width: 100%;
     /* auto on all sides centres it, and still scrolls when it outgrows the viewport */
     margin: auto;
-    padding: 28px 40px 23px;
+    padding: 28px var(--popup-pad) 23px;
     border: 1px solid rgba(214, 168, 107, 0.35);
     border-radius: 10px;
     background-color: #14100c;
@@ -1746,11 +1818,11 @@ body.is-locked {
     margin: 0 auto;
 }
 
-/* full-bleed: escapes the panel's 40px side padding */
+/* full-bleed: escapes the panel's side padding */
 .popup__divider {
-    width: calc(100% + 80px);
+    width: calc(100% + var(--popup-pad) * 2);
     height: 1px;
-    margin: 17px -40px 0;
+    margin: 17px calc(var(--popup-pad) * -1) 0;
     background-image: linear-gradient(90deg,
         rgba(214, 168, 107, 0.15) 0%,
         rgba(214, 168, 107, 1) 50%,
@@ -1763,7 +1835,7 @@ body.is-locked {
 
 .popup__item {
     padding: 10px 0;
-    font-weight: 700;
+    font-weight: 500;
     font-size: 14px;
     letter-spacing: -0.01em;
     color: #fff;
@@ -1782,6 +1854,7 @@ body.is-locked {
 
 .popup__item span {
     color: #d6a86b;
+    font-weight: 700;
 }
 
 .popup__btn {
