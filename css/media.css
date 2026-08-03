@@ -819,8 +819,8 @@
     }
 
     .help__icon {
-        width: 60px;
-        height: 60px;
+        width: 80px;
+        height: auto;
     }
 
     .help__question {
@@ -931,8 +931,8 @@
 
     .course-for__head img {
         grid-column: 1;
-        width: 55px;
-        height: 55px;
+        width: 70px;
+        height: 70px;
         grid-row: 1 / span 3;
         align-self: start;
     }
