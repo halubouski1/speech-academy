@@ -296,7 +296,9 @@ if (everythingList) {
       const head = document.createElement('button');
       head.type = 'button';
       head.className = 'everything__head';
-      head.setAttribute('aria-expanded', 'false');
+      // every card starts expanded, the chevron still collapses it
+      head.setAttribute('aria-expanded', 'true');
+      card.classList.add('is-open');
 
       card.querySelector('img').classList.add('everything__icon');
       // everything but the paragraph moves into the head

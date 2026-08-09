@@ -1115,6 +1115,10 @@
         background: none;
     }
 
+    .everything__icon {
+        display: none;
+    }
+
     /* negative margin pulls the rule out to the screen edges,
        the matching padding keeps the content inset as before */
     .everything__head {
@@ -1181,7 +1185,7 @@
     .everything__text {
         position: relative;
         margin: 0;
-        padding: 15px 30px 16px calc(var(--container-pad) + 5px);
+        padding: 15px 30px 16px 20px;
         border: none;
         border-radius: 0;
         background: none;
