@@ -23,6 +23,14 @@
             </picture>
         </a>
 
+        <!-- moved into .hero__bottom by JS at 620px and below -->
+        <a class="hero__video" href="#about">
+            <span class="hero__video-icon">
+                <img src="assets/icons/play.svg" alt="" width="18" height="21">
+            </span>
+            <span class="hero__video-text">Смотреть видео<br>об академии</span>
+        </a>
+
         <button class="header__burger" type="button" aria-label="Открыть меню" aria-controls="menu" aria-expanded="false">
             <img src="assets/icons/burger.svg" alt="" width="30" height="24">
         </button>
@@ -77,7 +85,7 @@
         </nav>
 
         <div class="menu__bottom">
-            <a class="btn btn--gold menu__btn" href="mailto:Academia.golosa@yandex.ru">Записаться на курс</a>
+            <button class="btn btn--gold menu__btn" type="button" data-popup="popup-signup">Записаться на курс</button>
         </div>
     </div>
 </div>
@@ -88,13 +96,8 @@
         <div class="container hero__container">
             <h1 class="hero__title">
                 Твой <br class="hero__title-br"> голос
-                <span class="hero__title-accent">Главный инструмент<br>влияния и успеха</span>
+                <span class="hero__title-accent">Главный инструмент <br>влияния и успеха</span>
             </h1>
-
-            <p class="hero__text">
-                За 5 недель: научим говорить ярко, убеждать и влюблять в себя в любой ситуации&nbsp;-
-                от свиданий до советов директоров
-            </p>
 
             <ul class="hero__list">
                 <li class="hero__list-item">
@@ -109,23 +112,22 @@
 
             <div class="hero__bottom">
                 <div class="hero__actions">
-                    <a class="btn btn--gold" href="mailto:Academia.golosa@yandex.ru">Записаться на курс</a>
-                    <a class="btn btn--outline" href="mailto:Academia.golosa@yandex.ru"><span>Забрать пробный урок</span></a>
+                    <button class="btn btn--gold" type="button" data-popup="popup-signup">Записаться на курс</button>
+                    <button class="btn btn--outline" type="button" data-popup="popup-lesson"><span>Забрать пробный урок</span></button>
                 </div>
-
-                <a class="hero__video" href="#about">
-                    <span class="hero__video-icon">
-                        <img src="assets/icons/play.svg" alt="" width="18" height="21">
-                    </span>
-                    <span class="hero__video-text">Смотреть видео<br>об академии</span>
-                </a>
+            <p class="hero__text">
+                За 5 недель: научим говорить ярко, убеждать и влюблять в себя в любой ситуации&nbsp;-
+                от свиданий до советов директоров
+            </p>
             </div>
         </div>
     </section>
 
     <section class="effect" data-aos="fade-up">
-        <div class="container">
+        <div class="container effect__head">
             <h2 class="effect__title">Эффект уже после первого занятия</h2>
+            <!-- filled by JS with the two arrows at 620px and below -->
+            <div class="effect__nav"></div>
         </div>
 
         <div class="container effect__row">
@@ -201,12 +203,14 @@
     <section class="about" id="about" data-aos="fade-up">
         <div class="container about__container">
             <div class="about__content">
-                <h2 class="about__title">О нас</h2>
-
-                <p class="about__text">
-                    Академия голоса Михаила Леонова - это практический подход к развитию
-                    голоса, речи и харизмы
-                </p>
+                <div class="about__wrapper">
+                    <h2 class="about__title">О нас</h2>
+    
+                    <p class="about__text">
+                        Академия голоса Михаила Леонова - это практический подход к развитию
+                        голоса, речи и харизмы
+                    </p>
+                </div>
 
                 <p class="about__text">
                     Наши методики основаны на психологии общения, сценической речи
@@ -309,11 +313,14 @@
     <section class="lesson" id="free-lesson" data-aos="fade-up">
         <div class="container">
             <div class="lesson__inner">
-                <img class="lesson__poster" src="assets/img/lesson-poster.jpg" alt="" width="444" height="310">
+                <!-- the two prices move onto the poster at 620px and below -->
+                <div class="lesson__media">
+                    <img class="lesson__poster" src="assets/img/lesson-poster.jpg" alt="" width="444" height="310">
+                </div>
 
                 <div class="lesson__content">
-                    <span class="lesson__label">ВИДЕОУРОК:</span>
-                    <span class="lesson__title">3 УПРАЖНЕНИЯ КАК УЛУЧШИТЬ СВОЙ ГОЛОС <br class="lesson__title-br"> ВСЕГО ЗА 5 МИНУТ</span>
+                    <span class="lesson__label">Видеоурок:</span>
+                    <span class="lesson__title">3 УПРАЖНЕНИЯ <span class="lesson__title-accent">КАК УЛУЧШИТЬ СВОЙ ГОЛОС</span> <br class="lesson__title-br"> ВСЕГО ЗА 5 МИНУТ</span>
 
                     <span class="lesson__old-price">ЦЕНА: <span class="lesson__old-price-value">1 900 ₽</span></span>
                     <span class="lesson__price">0 ₽</span>
@@ -340,7 +347,7 @@
                             </div>
                         </div>
 
-                        <a class="btn btn--gold lesson__btn" href="mailto:Academia.golosa@yandex.ru">Забрать урок бесплатно</a>
+                        <button class="btn btn--gold lesson__btn" type="button" data-popup="popup-lesson">Забрать урок бесплатно</button>
                     </div>
                 </div>
             </div>
@@ -407,10 +414,39 @@
                 <img class="weeks__mic" src="assets/img/mobile-mic.png" alt="" width="16" height="39">
             </div>
 
-            <span class="weeks__label">За 30 минут в день</span>
-            <h2 class="weeks__title">Через 5 недель вы не узнаете свой голос и станете говорить увереннее</h2>
+            <span class="weeks__label">За 30 минут в День</span>
+            <h2 class="weeks__title">Через 5 недель вы не узнаете свой голос и станете <span class="weeks__title--acc">говорить увереннее</span></h2>
 
             <div class="weeks__body">
+                <!-- numbers and the drawn line replace the icons and the track
+                     image at 769px and below - see media.css -->
+                <div class="weeks__nums">
+                    <div class="weeks__num">
+                        <span class="weeks__num-value">1</span>
+                        <span class="weeks__num-label">Неделя</span>
+                    </div>
+                    <div class="weeks__num">
+                        <span class="weeks__num-value">2</span>
+                        <span class="weeks__num-label">Неделя</span>
+                    </div>
+                    <div class="weeks__num">
+                        <span class="weeks__num-value">3</span>
+                        <span class="weeks__num-label">Неделя</span>
+                    </div>
+                    <div class="weeks__num">
+                        <span class="weeks__num-value">4</span>
+                        <span class="weeks__num-label">Неделя</span>
+                    </div>
+                    <div class="weeks__num">
+                        <span class="weeks__num-value">5</span>
+                        <span class="weeks__num-label">Неделя</span>
+                    </div>
+                </div>
+
+                <div class="weeks__progress">
+                    <span class="weeks__progress-fill"></span>
+                </div>
+
                 <div class="weeks__icons">
                     <img src="assets/icons/weeks-1.svg" alt="1 неделя" width="92" height="92">
                     <img src="assets/icons/weeks-2.svg" alt="2 неделя" width="92" height="92">
@@ -486,7 +522,7 @@
                     </li>
                 </ul>
 
-                <a class="btn btn--gold test__btn" href="mailto:Academia.golosa@yandex.ru">Пройти тест и получить урок</a>
+                <button class="btn btn--gold test__btn" type="button" data-popup="popup-lesson">Пройти тест и получить урок</button>
             </div>
 
             <div class="test__line"></div>
@@ -502,7 +538,7 @@
         <div class="container">
             <span class="everything__title">
                 На нашем курсе вы приобретете <span class="everything__title-accent">все необходимое,</span>
-                чтобы звучать и держать себя безукоризненно при любом формате коммуникации
+                <span class="everything__title-sub">Чтобы звучать и держать себя безукоризненно при любом формате коммуникации</span>
             </span>
 
             <ul class="everything__list">
@@ -852,7 +888,7 @@
                         </div>
                     </div>
 
-                    <a class="btn btn--gold start__btn" href="mailto:Academia.golosa@yandex.ru">Изменить свою жизнь →</a>
+                    <button class="btn btn--gold start__btn" type="button" data-popup="popup-signup">Изменить свою жизнь →</button>
                 </div>
             </div>
         </div>
@@ -861,23 +897,124 @@
     <section class="bottom">
         <div class="container bottom__container">
             <div class="bottom__item">
-                <img src="assets/icons/bottom-1.svg" alt="" width="44" height="42">
+                <img src="assets/icons/bottom-3.svg" alt="" width="44" height="42">
                 <span>Более 9 лет практики</span>
             </div>
 
             <div class="bottom__item">
-                <img src="assets/icons/bottom-2.svg" alt="" width="42" height="42">
+                <img src="assets/icons/bottom-1.svg" alt="" width="42" height="42">
                 <span>1000+ слушателей</span>
             </div>
 
             <div class="bottom__item">
-                <img src="assets/icons/bottom-3.svg" alt="" width="42" height="42">
+                <img src="assets/icons/bottom-2.svg" alt="" width="42" height="42">
                 <span>Авторская методика</span>
             </div>
         </div>
     </section>
 
 </main>
+
+<footer class="footer">
+    <div class="container">
+        <div class="footer__list">
+            <div class="footer__item">
+                <span class="footer__label">
+                    <img src="assets/icons/footer-star.svg" alt="" width="14" height="14">
+                    Телефон
+                </span>
+                <a class="footer__value" href="tel:9712424048">971-242-4048</a>
+            </div>
+
+            <div class="footer__item">
+                <span class="footer__label">
+                    <img src="assets/icons/footer-star.svg" alt="" width="14" height="14">
+                    E-Mail
+                </span>
+                <a class="footer__value" href="mailto:Academia.golosa@yandex.ru">Academia.golosa@yandex.ru</a>
+            </div>
+
+            <!-- the only item that is not a link -->
+            <div class="footer__item">
+                <span class="footer__label">
+                    <img src="assets/icons/footer-star.svg" alt="" width="14" height="14">
+                    Реквизиты
+                </span>
+                <span class="footer__value">ИП Моломин ИНН 31839283</span>
+            </div>
+        </div>
+
+        <a class="footer__policy" href="#">Политика конфиденциальности</a>
+    </div>
+</footer>
+
+<div class="popup" id="popup-lesson" data-lenis-prevent>
+    <button class="popup__close" type="button" aria-label="Закрыть">
+        <img src="assets/icons/close.svg" alt="" width="26" height="26">
+    </button>
+
+    <div class="popup__panel popup__panel--form">
+        <h3 class="form__title">Забрать урок бесплатно</h3>
+        <p class="form__text">Оставьте контакты — пришлем вам бесплатный видеоурок</p>
+
+        <form class="form" action="https://api.web3forms.com/submit" method="POST">
+            <input type="hidden" name="access_key" value="03233184-e05b-45a3-a5d5-83d1bd28484d">
+
+            <input type="hidden" name="subject" value="Заявка на бесплатный урок — Академия голоса">
+            <input type="hidden" name="from_name" value="Академия голоса Михаила Леонова">
+            <!-- spam trap: hidden, so only bots ever tick it -->
+            <input class="form__botcheck" type="checkbox" name="botcheck" tabindex="-1" autocomplete="off">
+
+            <input class="form__input" type="text" name="name"
+                   placeholder="Имя" aria-label="Имя" autocomplete="name" required>
+            <input class="form__input" type="tel" name="phone"
+                   placeholder="+7 (000) 000-00-00" aria-label="Номер телефона"
+                   autocomplete="tel" required>
+            <input class="form__input" type="email" name="email"
+                   placeholder="example@mail.com" aria-label="Email"
+                   autocomplete="email">
+
+            <button class="btn btn--gold form__btn" type="submit">Получить урок</button>
+
+            <p class="form__status" role="status" aria-live="polite"></p>
+        </form>
+    </div>
+</div>
+
+<div class="popup" id="popup-signup" data-lenis-prevent>
+    <button class="popup__close" type="button" aria-label="Закрыть">
+        <img src="assets/icons/close.svg" alt="" width="26" height="26">
+    </button>
+
+    <div class="popup__panel popup__panel--form">
+        <h3 class="form__title">Записаться на курс</h3>
+        <p class="form__text">Оставьте контакты — мы свяжемся с вами и подберем подходящий тариф</p>
+
+        <form class="form" action="https://api.web3forms.com/submit" method="POST">
+            <!-- ↓↓↓ ВСТАВЬТЕ ЗДЕСЬ ACCESS KEY ИЗ WEB3FORMS - БОЛЬШЕ НИЧЕГО МЕНЯТЬ НЕ НУЖНО ↓↓↓ -->
+            <input type="hidden" name="access_key" value="8b2f0a66-b91d-49ba-8c01-f908571a08c7">
+            <!-- ↑↑↑ ВСТАВЬТЕ ЗДЕСЬ ACCESS KEY ИЗ WEB3FORMS ↑↑↑ -->
+
+            <input type="hidden" name="subject" value="Заявка на курс — Академия голоса">
+            <input type="hidden" name="from_name" value="Академия голоса Михаила Леонова">
+            <!-- spam trap: hidden, so only bots ever tick it -->
+            <input class="form__botcheck" type="checkbox" name="botcheck" tabindex="-1" autocomplete="off">
+
+            <input class="form__input" type="text" name="name"
+                   placeholder="Имя" aria-label="Имя" autocomplete="name" required>
+            <input class="form__input" type="tel" name="phone"
+                   placeholder="+7 (000) 000-00-00" aria-label="Номер телефона"
+                   autocomplete="tel" required>
+            <input class="form__input" type="email" name="email"
+                   placeholder="example@mail.com" aria-label="Email"
+                   autocomplete="email">
+
+            <button class="btn btn--gold form__btn" type="submit">Оставить заявку</button>
+
+            <p class="form__status" role="status" aria-live="polite"></p>
+        </form>
+    </div>
+</div>
 
 <div class="popup" id="popup-express" data-lenis-prevent>
     <button class="popup__close" type="button" aria-label="Закрыть">
@@ -918,7 +1055,7 @@
                     </li>
         </ul>
 
-        <a class="btn btn--gold popup__btn" href="mailto:Academia.golosa@yandex.ru">Записаться на курс</a>
+        <button class="btn btn--gold popup__btn" type="button" data-popup="popup-signup">Записаться на курс</button>
     </div>
 </div>
 
@@ -962,7 +1099,7 @@
                     </li>
         </ul>
 
-        <a class="btn btn--gold popup__btn" href="mailto:Academia.golosa@yandex.ru">Записаться на курс</a>
+        <button class="btn btn--gold popup__btn" type="button" data-popup="popup-signup">Записаться на курс</button>
     </div>
 </div>
 
@@ -1008,7 +1145,7 @@
                     </li>
         </ul>
 
-        <a class="btn btn--gold popup__btn" href="mailto:Academia.golosa@yandex.ru">Записаться на курс</a>
+        <button class="btn btn--gold popup__btn" type="button" data-popup="popup-signup">Записаться на курс</button>
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>

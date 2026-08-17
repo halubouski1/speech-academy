@@ -182,6 +182,7 @@
         flex-direction: column;
     }
 
+    .lesson__media,
     .lesson__poster {
         width: 100%;
         height: auto;
@@ -347,47 +348,85 @@
         flex-shrink: 0;
     }
 
-    /* three columns - track | icon | text - with one row per week.
-       display: contents drops the icons and list items into this grid,
-       so each icon lands beside its own paragraph without markup changes */
+    /* three columns - number | progress line | text - with one row per week.
+       display: contents drops the numbers and list items into this grid,
+       so each number lands beside its own paragraph without markup changes */
     .weeks__body {
-        --track-w: 12px;
-        --icon-w: 60px;
-        --col-gap: 14px;
         display: grid;
-        grid-template-columns: var(--track-w) var(--icon-w) 1fr;
-        column-gap: var(--col-gap);
+        grid-template-columns: auto 1px 1fr;
+        column-gap: 26px;
+        row-gap: 30px;
     }
 
-    .weeks__icons,
+    .weeks__nums,
     .weeks__list {
         display: contents;
     }
 
+    /* the illustrated icons and the drawn track are desktop-only from here down */
+    .weeks__icons,
     .weeks__track {
-        grid-column: 1;
-        grid-row: 1 / span 5;
-        align-self: start;
-        height: 444px;
-        margin-right: 0;
+        display: none;
     }
 
-    /* sized off --icon-w so the column can't end up wider than the icon */
-    .weeks__icons img {
-        width: var(--icon-w);
-        height: var(--icon-w);
-        grid-column: 2;
+    .weeks__num {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        grid-column: 1;
         align-self: center;
     }
 
-    .weeks__icons img:nth-child(1) { grid-row: 1; }
-    .weeks__icons img:nth-child(2) { grid-row: 2; }
-    .weeks__icons img:nth-child(3) { grid-row: 3; }
-    .weeks__icons img:nth-child(4) { grid-row: 4; }
-    .weeks__icons img:nth-child(5) { grid-row: 5; }
+    .weeks__num:nth-child(1) { grid-row: 1; }
+    .weeks__num:nth-child(2) { grid-row: 2; }
+    .weeks__num:nth-child(3) { grid-row: 3; }
+    .weeks__num:nth-child(4) { grid-row: 4; }
+    .weeks__num:nth-child(5) { grid-row: 5; }
+
+    .weeks__num-value {
+        font-weight: 500;
+        font-size: 32px;
+        line-height: 1;
+        color: #4a443b;
+        transition: color 0.4s ease;
+    }
+
+    .weeks__num-label {
+        font-weight: 500;
+        font-size: 10px;
+        text-transform: uppercase;
+        color: rgba(246, 242, 236, 0.45);
+        transition: color 0.4s ease;
+    }
+
+    .weeks__num.is-active .weeks__num-value {
+        color: #d6a86b;
+    }
+
+    .weeks__num.is-active .weeks__num-label {
+        color: #f6f2ec;
+    }
+
+    /* one line for the whole block; JS writes --weeks-progress as it scrolls by */
+    .weeks__progress {
+        position: relative;
+        display: block;
+        grid-column: 2;
+        grid-row: 1 / span 5;
+        background-color: rgba(214, 168, 107, 0.18);
+    }
+
+    .weeks__progress-fill {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: var(--weeks-progress, 0%);
+        background-color: #d6a86b;
+    }
 
     .weeks__item {
-        position: relative;
         grid-column: 3;
         background-image: none;
     }
@@ -401,20 +440,6 @@
     .weeks__item:nth-child(3) { grid-row: 3; }
     .weeks__item:nth-child(4) { grid-row: 4; }
     .weeks__item:nth-child(5) { grid-row: 5; }
-
-    /* the rule runs the full screen width, darkest at the left */
-    .weeks__item:not(:last-child)::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        right: calc(var(--container-pad) * -1);
-        left: calc((var(--track-w) + var(--icon-w) + var(--col-gap) * 2 + var(--container-pad)) * -1);
-        height: 1px;
-        background-image: linear-gradient(90deg,
-            rgba(214, 168, 107, 0) 0%,
-            rgba(214, 168, 107, 1) 38%,
-            rgba(214, 168, 107, 1) 100%);
-    }
 
     /* test - the one bordered box becomes three separate cards */
     .test__box {
@@ -571,6 +596,15 @@
         --container-pad: 20px;
     }
 
+    .btn--gold {
+        background: #ffd279;
+        box-shadow: 0 4px 80px 0 rgba(255, 210, 121, 0.4);
+    }
+
+    .btn--outline::before {
+        background: #ffd279;
+    }
+
     body {
         background-image: url(../assets/img/mob-bg.png);
     }
@@ -594,11 +628,12 @@
 
     /* hero */
     .hero__title {
-        font-size: 40px;
+        font-size: 50px;
+        line-height: 100%;
     }
 
     .hero {
-        padding-bottom: 0px;
+        padding-bottom: 40px;
         padding-top: 80px;
         min-height: 700px;
         background-image: url(../assets/img/hero-mob.png);
@@ -607,19 +642,20 @@
     }
 
     .hero__title-accent {
-        font-size: 32px;
-        max-width: 363px;
+        font-size: 18px;
+        max-width: 302px;
+        line-height: 140%;
     }
 
-    .hero__title-br {
-        display: inline;
-        max-width: 310px;
+    .hero__title-accent br {
+        display: none;
     }
 
     .hero__text {
         margin-top: 30px;
         font-size: 15px;
         max-width: 264px;
+        display: none;
     }
 
     .hero__list {
@@ -632,13 +668,13 @@
     }
 
     .hero__list-item img {
-        width: 13px;
-        height: 8px;
+        width: 16px;
+        height: auto;
     }
 
     .hero__actions {
         width: 100%;
-        gap: 7px;
+        gap: 20px;
     }
 
     .btn {
@@ -652,10 +688,11 @@
     }
 
     .hero__bottom {
-        margin-top: 20px;
+        margin-top: 30px;
     }
 
     .hero__video {
+        display: none;
         width: 100%;
         justify-content: center;
     }
@@ -686,7 +723,7 @@
 
     .menu__link {
         font-size: 24px;
-        padding: 12px 46px 12px;
+        padding: 12px 40px 12px;
         gap: 16px;
     }
 
@@ -708,21 +745,40 @@
     }
 
     /* effect */
+    /* JS lifts the two arrows out of the slider and into .effect__nav here */
+    .effect__head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+    }
+
+    .card {
+        border: 1px solid rgba(255, 255, 255, 0.1)
+    }
+
     .effect__title {
-        font-size: 24px;
+        font-size: 20px;
         max-width: 290px;
-        margin-left: auto;
-        margin-right: auto;
+        margin-left: 0;
+        margin-right: 0;
+        text-align: left;
+    }
+
+    .effect__nav {
+        display: flex;
+        flex-shrink: 0;
+        gap: 6px;
     }
 
     /* the ellipse sits behind the section at its native size, so it runs off
        both edges; min-height matches the image so it never gets cut vertically */
     .effect {
         min-height: 453px;
-        padding-top: 60px;
+        padding-top: 100px;
         background-image: url('../assets/img/effect-mob-bg.png');
         background-repeat: no-repeat;
-        background-position: center top 20px;
+        background-position: center top 30px;
     }
 
     /* the slider bleeds out to the screen edges and takes over the container's
@@ -740,7 +796,7 @@
         width: 269px;
     }
 
-    /* vertical rule sitting in the gap between two cards */
+    /* vertical rule sitting in the gap between two cards
     .effect__slider .swiper-slide:not(:last-child)::after {
         content: '';
         position: absolute;
@@ -750,24 +806,60 @@
         height: 100px;
         transform: translateY(-50%);
         background-color: rgba(214, 168, 107, 0.6);
-    }
+    } */
 
     .effect__pagination {
         display: none;
     }
 
-    .effect__arrow--prev {
-        left: 20px;
+    /* round buttons next to the title instead of the chevrons over the slider */
+    .effect__arrow {
+        position: static;
+        width: 34px;
+        height: 34px;
+        border: 1px solid transparent;
+        border-radius: 50%;
+        background-color: #efd9a4;
+        transform: none;
     }
 
-    .effect__arrow--next {
-        right: 20px;
+    /* the desktop chevron is an <img>, which cannot be recoloured per state,
+       so the mobile arrow is a mask over a background colour instead */
+    .effect__arrow img {
+        display: none;
+    }
+
+    .effect__arrow::before {
+        content: '';
+        width: 10px;
+        height: 10px;
+        background-color: #403925;
+        -webkit-mask: url('../assets/icons/slider-arrow-mob.svg') no-repeat center / contain;
+                mask: url('../assets/icons/slider-arrow-mob.svg') no-repeat center / contain;
+    }
+
+    /* the icon points right, so only the prev button is flipped */
+    .effect__arrow--prev::before {
+        transform: rotate(180deg);
+    }
+
+    /* desktop just dims the arrow; here the end of the strip is a grey outline.
+       Swiper only sets this class when the slider is not looping - see main.js */
+    .effect__arrow.swiper-button-disabled {
+        opacity: 1;
+        border-color: #5a5348;
+        background-color: transparent;
+    }
+
+    .effect__arrow.swiper-button-disabled::before {
+        background-color: #7c7566;
     }
 
     /* about */
     .about__title {
-        font-size: 24px;
+        font-size: 14px;
         text-align: center;
+        padding-top: 7px;
         color: #d6a86b;
     }
 
@@ -777,16 +869,39 @@
 
     .about__text {
         font-size: 15px;
+        margin-top: 60px;
         max-width: 330px;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 164%;
+        letter-spacing: -0.01em;
+        color: #fff;
+    }
+
+    .about__wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding-bottom: 50px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.15);
     }
 
     .about__title + .about__text {
-        max-width: 310px;
-        margin-top: 17px;
+        max-width: 265px;
+        margin-top: 0;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 164%;
+        letter-spacing: -0.01em;
+        color: #fff;
     }
 
     .about__container {
-        gap: 20px;
+        gap: 55px;
+    }
+
+    .about__video {
+        border: 1px solid rgba(255, 255, 255, 0.1)
     }
 
     .about__play-text {
@@ -812,6 +927,7 @@
     .help__title {
         margin-top: 40px;
         font-size: 24px;
+        line-height: 120%;
     }
 
     .help__list {
@@ -828,7 +944,11 @@
     }
 
     .help__head {
-        padding: 15px var(--container-pad);
+        padding: 38px var(--container-pad);
+    }
+
+    .help__item:last-of-type .help__head {
+        border-bottom: 0;
     }
 
     .help__answer {
@@ -838,6 +958,7 @@
 
     .help {
         padding-bottom: 20px;
+        --divider: none;
     }
 
     /* lesson */
@@ -848,24 +969,21 @@
     .lesson__inner {
         padding: 0;
         border: none;
-        gap: 16px;
+        gap: 20px;
     }
 
     .lesson__label {
+        text-transform: none;
         font-size: 18px;
         text-decoration: underline;
         text-decoration-skip-ink: none;
-        color: #d6a86b;
+        color: #ffd279;
     }
 
     .lesson__title {
         font-weight: 500;
         font-size: 20px;
         max-width: 350px;
-    }
-
-    .lesson__title-br {
-        display: inline;
     }
 
     .lesson__timer {
@@ -878,6 +996,10 @@
         height: auto;
     }
 
+    .lesson__title-accent {
+        color: #ffd279;
+    }
+
     .lesson__old-price {
         margin-top: 13px;
         font-size: 16px;
@@ -888,26 +1010,51 @@
         color: #f6f2ec;
     }
 
+    /* JS moves both prices in here, so scoping to .lesson__media means these
+       stop applying by themselves once they are back in the content column */
+    .lesson__media .lesson__price {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        margin: 0;
+    }
+
+    .lesson__media .lesson__old-price {
+        position: absolute;
+        right: 17px;
+        bottom: 17px;
+        margin: 0;
+    }
+
+    .lesson__poster {
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
     .lesson__timer-title {
         display: block;
         font-weight: 600;
         font-size: 12px;
         color: #f6f2ec;
-        margin-top: 24px;
+        margin-top: 44px;
     }
 
     .lesson__bottom {
         margin-top: 6px;
-        gap: 23px;
+        gap: 36px;
     }
 
     /* .course-for */
     .course-for {
-        padding-top: 40px;
+        padding-top: 60px;
     }
 
     .course-for__title {
         font-size: 24px;
+        margin-bottom: 32px;
+    }
+
+    .course-for__divider {
+        margin-bottom: 32px;
     }
 
     .course-for__list {
@@ -921,8 +1068,9 @@
         position: relative;
         display: grid;
         grid-template-columns: auto 1fr;
-        column-gap: 14px;
+        column-gap: 30px;
         padding: 15px;
+        background: none;
     }
 
     .course-for__head {
@@ -948,6 +1096,7 @@
         font-size: 13px;
         grid-row: 2;
         margin-top: 3px;
+        color: #fff;
     }
 
     .course-for__lead br {
@@ -958,10 +1107,11 @@
         grid-column: 2;
         grid-row: 3;
         font-size: 13px;
-        margin-top: 6px;
+        margin-top: 18px;
+        color: rgba(246, 242, 236, 0.7);
     }
 
-    /* decorative rule alongside the card, alternating sides */
+    /* decorative rule alongside the card, alternating sides
     .course-for__card::before {
         content: '';
         position: absolute;
@@ -972,7 +1122,7 @@
             rgba(214, 168, 107, 0) 0%,
             rgba(214, 168, 107, 0.9) 50%,
             rgba(214, 168, 107, 0) 100%);
-    }
+    } */
 
     .course-for__card:nth-child(odd)::before {
         left: -14px;
@@ -985,6 +1135,7 @@
     /* weeks */
     .weeks__item p {
         font-size: 11px;
+        line-height: 164%;
     }
 
     .weeks__item {
@@ -995,23 +1146,24 @@
     }
 
     .weeks__body {
-        --track-w: 17px;
-        --icon-w: 60px;
-        --col-gap: 12px;
-        grid-template-columns: var(--track-w) var(--icon-w) 1fr;
-        column-gap: var(--col-gap);
         margin-bottom: 50px;
     }
 
     .weeks__label {
+        text-transform: none;
         font-size: 18px;
-        margin-bottom: 4px;
+        margin-bottom: 20px;
     }
 
     .weeks__title {
-        font-size: 23px;
+        font-size: 20px;
         max-width: 355px;
-        margin-bottom: 11px;
+        margin-bottom: 85px;
+        line-height: 120%;
+    }
+
+    .weeks__title--acc {
+        color: #ffd18c;
     }
 
     /* test */
@@ -1019,13 +1171,14 @@
         margin-left: -20px;
         margin-right: -20px;
         width: calc(100% + 40px);
-        font-size: 18px;
+        font-size: 14px;
         margin-bottom: 60px;
     }
 
     .test__card {
         margin-top: 0;
         padding: 33px 20px 13px;
+        background: none;
     }
 
     .test__card img {
@@ -1035,7 +1188,7 @@
     }
 
     .test__cards {
-        gap: 43px;
+        gap: 53px;
     }
 
     .test__card p {
@@ -1043,41 +1196,52 @@
         max-width: 270px;
     }
 
-    .test::before {
-        left: -20%;
-    }
-
     .test::after {
         width: 290px;
+        display: none;
+    }
+
+    .test::before {
+    background-image: url(../assets/img/test-photo-mob.png);
     }
 
     .test__content {
         margin-right: 0px;
-        margin-top: 150px;
-        margin-bottom: 250px;
+        margin-top: 65px;
+        margin-bottom: 450px;
     }
 
     .test__label {
-        max-width: 170px;
-        text-align: left;
+        max-width: 100%;
+        text-align: center;
         font-size: 20px;
     }
 
     .test__title {
-        font-size: 23px;
+        font-size: 21px;
         max-width: 350px;
+        line-height: 120%;
     }
 
     .test-cta .test__list {
         margin-top: 30px;
+        gap: 20px;
     }
 
     .test__list-item {
         font-size: 14px;
     }
 
+    .tariffs__features  .test__list-item {
+        justify-content: center;
+    }
+
     .test-cta {
         padding-bottom: 45px;
+    }
+
+    .test-cta .test__btn {
+        margin-top: 40px;
     }
 
     /* .everything */
@@ -1097,43 +1261,75 @@
         display: block;
     }
 
-    /* JS rebuilds this list into an accordion here, one-to-one with .help__list */
-    .everything__list {
-        grid-template-columns: 1fr;
-        gap: 0;
+    /* the tail of the sentence drops onto its own smaller line */
+    .everything__title-sub {
+        display: block;
+        margin-top: 14px;
+        font-size: 13px;
+        text-transform: none;
     }
 
-    .everything__card img {
-        margin-top: 0;
+    /* JS wraps everything except the paragraph in .everything__head,
+       so the card and its answer read as two separate boxes.
+       display: contents drops both boxes straight into this grid, which is what
+       lets a head line up with its neighbour instead of with its own answer */
+    .everything__list {
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: 8px;
+        /* no row gap - an answer has to sit flush under its own head, so the
+           8px between pairs is a margin on the answer instead */
+        row-gap: 0;
     }
 
     .everything__card {
-        display: block;
-        min-height: auto;
-        padding: 0;
-        border: none;
-        background: none;
+        display: contents;
     }
 
-    .everything__icon {
-        display: none;
+    /* odd cards to the left column, even ones to the right */
+    .everything__card:nth-child(odd) .everything__head,
+    .everything__card:nth-child(odd) .everything__answer {
+        grid-column: 1;
     }
 
-    /* negative margin pulls the rule out to the screen edges,
-       the matching padding keeps the content inset as before */
+    .everything__card:nth-child(even) .everything__head,
+    .everything__card:nth-child(even) .everything__answer {
+        grid-column: 2;
+    }
+
+    /* each pair of cards owns two rows - heads share the first, answers the
+       second - so both heads take the height of the taller of the two */
+    .everything__card:nth-child(-n + 2) .everything__head { grid-row: 1; }
+    .everything__card:nth-child(-n + 2) .everything__answer { grid-row: 2; }
+    .everything__card:nth-child(n + 3):nth-child(-n + 4) .everything__head { grid-row: 3; }
+    .everything__card:nth-child(n + 3):nth-child(-n + 4) .everything__answer { grid-row: 4; }
+    .everything__card:nth-child(n + 5):nth-child(-n + 6) .everything__head { grid-row: 5; }
+    .everything__card:nth-child(n + 5):nth-child(-n + 6) .everything__answer { grid-row: 6; }
+    .everything__card:nth-child(n + 7):nth-child(-n + 8) .everything__head { grid-row: 7; }
+    .everything__card:nth-child(n + 7):nth-child(-n + 8) .everything__answer { grid-row: 8; }
+    .everything__card:nth-child(n + 9) .everything__head { grid-row: 9; }
+    .everything__card:nth-child(n + 9) .everything__answer { grid-row: 10; }
+
+    .everything .container {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
     .everything__head {
+        z-index: 1;
         display: flex;
+        flex-direction: column;
         align-items: center;
-        gap: 17px;
-        margin-left: calc(var(--container-pad) * -1);
-        margin-right: calc(var(--container-pad) * -1);
-        width: calc(100% + var(--container-pad) * 2);
-        padding: 15px 20px;
-        border: none;
-        border-bottom: 1px solid rgba(214, 168, 107, 0.35);
-        border-radius: 0;
-        background: none;
-        text-align: left;
+        gap: 14px;
+        height: 100%;
+        width: 100%;
+        min-height: 165px;
+        padding: 22px 14px 16px;
+        border: 1px solid rgba(214, 168, 107, 0.35);
+        border-radius: 10px;
+        background: linear-gradient(199.91deg,
+            rgba(0, 0, 0, 0.95) 48%,
+            rgba(214, 168, 107, 0) 100%);
+        text-align: center;
         cursor: pointer;
     }
 
@@ -1141,79 +1337,40 @@
         display: none;
     }
 
-    .everything__icon {
-        flex-shrink: 0;
-        width: 55px;
-        height: 55px;
+    .everything__head img:not(.everything__chevron) {
+        width: 72px;
+        height: 72px;
     }
 
     .everything__name {
-        flex-grow: 1;
         margin-top: 0;
         font-size: 16px;
     }
 
+    /* always sits at the foot of the card, whatever the name wraps to */
     .everything__chevron {
         flex-shrink: 0;
-        transform: rotate(-90deg);
+        margin-top: auto;
         transition: transform 0.3s ease;
     }
 
     .everything__card.is-open .everything__chevron {
-        transform: rotate(0);
+        transform: rotate(180deg);
     }
 
     /* 0fr -> 1fr resolves to the paragraph's real height, so nothing is ever
-       clipped. The bleed lives here, outside the overflow that clips it */
+       clipped and it keeps up if the text reflows */
     .everything__answer {
+        position: relative;
+        z-index: -1;
         display: grid;
         grid-template-rows: 0fr;
-        margin-left: calc(var(--container-pad) * -1);
+        margin-bottom: 8px;
         transition: grid-template-rows 0.4s ease;
     }
 
     .everything__card.is-open .everything__answer {
         grid-template-rows: 1fr;
-    }
-
-    /* no padding of its own, so it really can reach zero height */
-    .everything__answer-inner {
-        min-height: 0;
-        overflow: hidden;
-    }
-
-    .everything__text {
-        position: relative;
-        margin: 0;
-        padding: 15px 30px 16px 20px;
-        border: none;
-        border-radius: 0;
-        background: none;
-        font-weight: 400;
-        font-size: 13px;
-    }
-
-    /* bottom rule, stopping short of the right edge */
-    .everything__text::before {
-        content: '';
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        width: calc(100% - 34px);
-        height: 1px;
-        background-color: rgba(214, 168, 107, 0.5);
-    }
-
-    /* the angled cut: joins the end of that rule to the top right corner */
-    .everything__text::after {
-        content: '';
-        position: absolute;
-        right: 0;
-        bottom: 0;
-        width: 34px;
-        height: 100%;
-        background-color: rgba(214, 168, 107, 0.5);
-        clip-path: polygon(100% 0, 100% 2px, 0 100%, 0 calc(100% - 2px));
     }
 
     .everything__note {
@@ -1224,9 +1381,25 @@
         text-align: left;
     }
 
-    /* sets the variable so the bleeds above follow this padding */
     .everything .container {
-        --container-pad: 35px;
+        --container-pad: 26px;
+    }
+
+    /* no padding of its own, so it really can reach zero height */
+    .everything__answer-inner {
+        min-height: 0;
+        overflow: hidden;
+    }
+
+    .everything__text {
+        height: 100%;
+        font-size: 11px;
+        margin: 0 10px;
+        padding: 16px 14px;
+        border: 1px solid rgba(214, 168, 107, 0.35);
+        border-radius: 0 0 10px 10px;
+        border-top: none;
+        background: linear-gradient(180.25deg, rgba(67, 49, 26, 0) 0.22%, rgba(169, 125, 66, 0.42) 99.78%);
     }
 
     /* tariffs */
@@ -1236,11 +1409,19 @@
 
     .tariffs__title {
         font-size: 24px;
+        display: none;
+    }
+
+    .tariffs__divider {
+        display: none;
     }
 
     /* narrower cards here - the divider positions follow this automatically */
     .tariffs__list {
-        --card-w: 305px;
+        --card-w: 100%;
+        flex-direction: column;
+        overflow: hidden;
+        --card-gap: 20px;
     }
 
     .tariffs__card {
@@ -1248,22 +1429,26 @@
     }
 
     .tariffs__name {
+        text-align: center;
         font-size: 30px;
         margin-bottom: 12px;
     }
 
     .tariffs__duration {
+        justify-content: center;
         gap: 13px;
         font-size: 13px;
-        margin-bottom: 5px;
+        margin-bottom: 30px;
     }
 
     .tariffs__price {
         font-size: 30px;
+        text-align: center;
     }
 
     .tariffs__bottom {
         gap: 16px;
+        margin-top: 50px;
     }
 
     .tariffs__btn {
@@ -1276,6 +1461,11 @@
 
     .tariffs__note {
         font-size: 10px;
+        display: none;
+    }
+
+    .tariffs__features {
+        gap: 20px;
     }
 
     .tariffs {
@@ -1430,21 +1620,23 @@
     }
     /* transformation */
     .transformation__title {
-        max-width: 300px;
+        max-width: 100%;
         margin-left: 0;
-        font-size: 28px;
+        font-size: 40px;
         margin-bottom: 30px;
         text-align: left;
     }
 
     .transformation__line {
         margin-bottom: 35px;
+        display: none;
     }
 
     .transformation__title-accent {
         display: block;
-        font-size: 16px;
+        font-size: 14px;
         color: #d6a86b;
+        margin-bottom: 10px;
     }
 
     /* the container is already position: relative from the 1180 block */
@@ -1453,6 +1645,7 @@
         right: 20px;
         width: 70px;
         height: auto;
+        display: none;
     }
 
     .transformation__intro {
@@ -1465,7 +1658,7 @@
         font-size: 12px;
         letter-spacing: -0.01em;
         color: #fff;
-        max-width: 190px;
+        max-width: 290px;
     }
 
     /* gold rule running down its left edge */
@@ -1493,8 +1686,10 @@
     }
 
     .transformation__name {
+        text-transform: uppercase;
         font-weight: 500;
         font-size: 14px;
+        margin-bottom: 4px;
     }
 
     .transformation__text {
@@ -1509,7 +1704,7 @@
 
     /* start */
     .start {
-        padding-top: 45px;
+        padding-top: 65px;
     } 
 
     /* popup */
@@ -1583,4 +1778,108 @@
         right: -38px;
         font-size: 12px;
     }
+
+    /* form popup */
+    .popup__panel--form {
+        padding-top: 30px;
+        padding-bottom: 28px;
+    }
+
+    .form__title {
+        font-size: 22px;
+    }
+
+    .form__text {
+        margin-top: 10px;
+        font-size: 13px;
+    }
+
+    .form {
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    /* 16px keeps iOS from zooming the page in when a field takes focus */
+    .form__input {
+        height: 50px;
+        padding: 0 16px;
+        font-size: 16px;
+    }
+
+    .form__btn {
+        height: 50px;
+        font-size: 14px;
+    }
+
+    .form__status {
+        font-size: 13px;
+    }
+
+    /* ==========================================================================
+   Footer
+   ========================================================================== */
+.footer {
+    display: block;
+    padding-top: 40px;
+    padding-bottom: 80px;
+    border-top: 1px solid rgba(214, 168, 107, 0.35);
+}
+
+.footer__list {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+/* align-items keeps the link's hit area to the width of its own text */
+.footer__item {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 10px;
+}
+
+.footer__label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 500;
+    font-size: 14px;
+    color: rgba(221, 221, 221, 0.35);
+}
+
+.footer__label img {
+    margin-top: 1px;
+    flex-shrink: 0;
+}
+
+.footer__value {
+    font-family: 'Helvetica Neue', Georgia, serif;
+    font-weight: 500;
+    font-size: 20px;
+    color: #ddd;
+}
+
+/* the third value is a plain span, so the hover only belongs to the links */
+a.footer__value {
+    transition: color 0.3s ease;
+}
+
+a.footer__value:hover {
+    color: #d6a86b;
+}
+
+.footer__policy {
+    display: inline-block;
+    margin-top: 75px;
+    font-weight: 400;
+    font-size: 11px;
+    color: #ddd;
+    text-transform: uppercase;
+    transition: opacity 0.3s ease;
+}
+
+.footer__policy:hover {
+    opacity: 0.7;
+}
 }

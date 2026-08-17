@@ -31,30 +31,56 @@ if (typeof AOS !== 'undefined') {
 
 // ========================================
 // Effect slider
+// The arrows sit over the slider on desktop and next to the title on mobile,
+// where they also grey out at the ends - which only happens with the loop off,
+// and `loop` cannot go in `breakpoints`, so the slider is rebuilt on the change.
 // ========================================
+const effectMq = window.matchMedia('(max-width: 620px)');
+const effectRow = document.querySelector('.effect__row');
+const effectNav = document.querySelector('.effect__nav');
+const effectArrows = [...document.querySelectorAll('.effect__arrow')];
+
+if (effectRow && effectNav && effectArrows.length) {
+  const syncEffectArrows = () => {
+    (effectMq.matches ? effectNav : effectRow).append(...effectArrows);
+  };
+
+  syncEffectArrows();
+  effectMq.addEventListener('change', syncEffectArrows);
+}
+
 if (typeof Swiper !== 'undefined') {
-  new Swiper('.effect__slider', {
-    // at 620 and below the slides take their 269px width from CSS
-    slidesPerView: 'auto',
-    spaceBetween: 35,
-    loop: true,
-    // without this Swiper 11 pads the loop with empty slides when there
-    // aren't enough real ones, which is what blocked scrolling right
-    loopAddBlankSlides: false,
-    breakpoints: {
-      621: { slidesPerView: 2, spaceBetween: 27 },
-      770: { slidesPerView: 3, spaceBetween: 27 },
-      1181: { slidesPerView: 4, spaceBetween: 27 },
-    },
-    navigation: {
-      prevEl: '.effect__arrow--prev',
-      nextEl: '.effect__arrow--next',
-    },
-    pagination: {
-      el: '.effect__pagination',
-      clickable: true,
-    },
-  });
+  let effectSwiper = null;
+
+  const buildEffectSwiper = () => {
+    if (effectSwiper) effectSwiper.destroy(true, true);
+
+    effectSwiper = new Swiper('.effect__slider', {
+      // at 620 and below the slides take their 269px width from CSS
+      slidesPerView: 'auto',
+      spaceBetween: 10,
+      loop: !effectMq.matches,
+      // without this Swiper 11 pads the loop with empty slides when there
+      // aren't enough real ones, which is what blocked scrolling right
+      loopAddBlankSlides: false,
+      breakpoints: {
+        621: { slidesPerView: 2, spaceBetween: 27 },
+        770: { slidesPerView: 3, spaceBetween: 27 },
+        1181: { slidesPerView: 4, spaceBetween: 27 },
+      },
+      navigation: {
+        prevEl: '.effect__arrow--prev',
+        nextEl: '.effect__arrow--next',
+      },
+      pagination: {
+        el: '.effect__pagination',
+        clickable: true,
+      },
+    });
+  };
+
+  buildEffectSwiper();
+  effectMq.addEventListener('change', buildEffectSwiper);
 }
 
 // ========================================
@@ -132,7 +158,17 @@ document.querySelectorAll('[data-popup]').forEach((trigger) => {
   const popup = document.getElementById(trigger.dataset.popup);
   if (!popup) return;
 
-  trigger.addEventListener('click', () => setPopup(popup, true));
+  trigger.addEventListener('click', () => {
+    // triggers also sit inside the tariff popups and in the burger menu, so
+    // whatever is already open has to give way before this one shows
+    document.querySelectorAll('.popup.is-open')
+      .forEach((open) => open.classList.remove('is-open'));
+    if (menu) menu.classList.remove('is-open');
+    if (burger) burger.setAttribute('aria-expanded', 'false');
+
+    setPopup(popup, true);
+  });
+
   popup.querySelector('.popup__close').addEventListener('click', () => setPopup(popup, false));
 
   // click on the dimmed area closes it
@@ -142,6 +178,53 @@ document.querySelectorAll('[data-popup]').forEach((trigger) => {
 
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape' && popup.classList.contains('is-open')) setPopup(popup, false);
+  });
+});
+
+// ========================================
+// Popup forms
+// Each one posts to Web3Forms in the background so the popup stays put. The
+// access key lives in a hidden field per form, in index.html.
+// ========================================
+document.querySelectorAll('.form').forEach((form) => {
+  const status = form.querySelector('.form__status');
+  const button = form.querySelector('.form__btn');
+
+  const setStatus = (message, state = '') => {
+    status.textContent = message;
+    status.className = state ? `form__status ${state}` : 'form__status';
+  };
+
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const key = form.elements.access_key.value;
+    if (!key || key.startsWith('YOUR_')) {
+      setStatus('Форма не подключена: добавьте Web3Forms access key.', 'is-error');
+      return;
+    }
+
+    button.disabled = true;
+    setStatus('Отправляем...');
+
+    try {
+      const response = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+      });
+      const result = await response.json();
+
+      if (result.success) {
+        form.reset();
+        setStatus('Заявка отправлена! Мы свяжемся с вами.', 'is-ok');
+      } else {
+        setStatus(result.message || 'Не удалось отправить. Попробуйте еще раз.', 'is-error');
+      }
+    } catch {
+      setStatus('Не удалось отправить. Проверьте соединение.', 'is-error');
+    } finally {
+      button.disabled = false;
+    }
   });
 });
 
@@ -176,7 +259,9 @@ if (helpList) {
       const head = document.createElement('button');
       head.type = 'button';
       head.className = 'help__head';
-      head.setAttribute('aria-expanded', 'false');
+      // every item starts expanded, the chevron still collapses it
+      head.setAttribute('aria-expanded', 'true');
+      item.classList.add('is-open');
 
       icon.classList.add('help__icon');
       head.append(icon, question, chevron);
@@ -271,6 +356,95 @@ if (testCta && testContent) {
 }
 
 // ========================================
+// Hero video link
+// It lives in the header, but three items do not fit across a phone header, so
+// at 620px and below it drops back into the hero under the buttons.
+// ========================================
+const heroVideo = document.querySelector('.hero__video');
+const headerContainer = document.querySelector('.header__container');
+const heroBottom = document.querySelector('.hero__bottom');
+
+if (heroVideo && headerContainer && heroBottom && burger) {
+  const heroVideoMq = window.matchMedia('(max-width: 620px)');
+
+  const syncHeroVideo = () => {
+    // back before the burger, so it lands in the middle grid column again
+    if (heroVideoMq.matches) heroBottom.append(heroVideo);
+    else headerContainer.insertBefore(heroVideo, burger);
+  };
+
+  syncHeroVideo();
+  heroVideoMq.addEventListener('change', syncHeroVideo);
+}
+
+// ========================================
+// Weeks progress
+// The line fills and the numbers light up as the block travels past the middle
+// of the screen. Mobile only - desktop keeps the drawn track and the icons.
+// ========================================
+const weeksBody = document.querySelector('.weeks__body');
+const weeksProgress = document.querySelector('.weeks__progress');
+const weeksNums = [...document.querySelectorAll('.weeks__num')];
+
+if (weeksBody && weeksProgress && weeksNums.length) {
+  const weeksMq = window.matchMedia('(max-width: 769px)');
+  let weeksFrame = null;
+
+  const drawWeeks = () => {
+    weeksFrame = null;
+    if (!weeksMq.matches) return;
+
+    const marker = window.innerHeight / 2;
+    const track = weeksProgress.getBoundingClientRect();
+    const filled = (marker - track.top) / track.height;
+
+    weeksBody.style.setProperty('--weeks-progress', `${Math.min(Math.max(filled, 0), 1) * 100}%`);
+
+    // a number lights up once its own middle has passed the same marker
+    weeksNums.forEach((num) => {
+      const box = num.getBoundingClientRect();
+      num.classList.toggle('is-active', box.top + box.height / 2 <= marker);
+    });
+  };
+
+  // rAF-throttled, so a burst of scroll events still costs one measure per frame
+  const queueWeeks = () => {
+    if (weeksFrame === null) weeksFrame = requestAnimationFrame(drawWeeks);
+  };
+
+  drawWeeks();
+  window.addEventListener('scroll', queueWeeks, { passive: true });
+  window.addEventListener('resize', queueWeeks);
+  weeksMq.addEventListener('change', drawWeeks);
+}
+
+// ========================================
+// Lesson prices
+// Both prices sit on the poster on mobile, which means moving them into the
+// media box - they cannot be pinned to it from the content column.
+// ========================================
+const lessonMedia = document.querySelector('.lesson__media');
+const lessonContent = document.querySelector('.lesson__content');
+const lessonPrices = [...document.querySelectorAll('.lesson__old-price, .lesson__price')];
+
+if (lessonMedia && lessonContent && lessonPrices.length) {
+  const lessonMq = window.matchMedia('(max-width: 620px)');
+  const lessonTimerTitle = lessonContent.querySelector('.lesson__timer-title');
+
+  const syncLessonPrices = () => {
+    if (lessonMq.matches) {
+      lessonMedia.append(...lessonPrices);
+    } else {
+      // back into the column in their original order, above the timer heading
+      lessonPrices.forEach((price) => lessonContent.insertBefore(price, lessonTimerTitle));
+    }
+  };
+
+  syncLessonPrices();
+  lessonMq.addEventListener('change', syncLessonPrices);
+}
+
+// ========================================
 // Everything accordion
 // Desktop-first markup, so at 620px and below each card is rebuilt into a
 // clickable head plus a separate answer box, and put back above that width.
@@ -288,10 +462,10 @@ if (everythingList) {
 
       const chevron = document.createElement('img');
       chevron.className = 'everything__chevron';
-      chevron.src = 'assets/icons/chevron.svg';
+      chevron.src = 'assets/icons/chevron-everything.svg';
       chevron.alt = '';
-      chevron.width = 14;
-      chevron.height = 9;
+      chevron.width = 21;
+      chevron.height = 13;
 
       const head = document.createElement('button');
       head.type = 'button';
@@ -300,7 +474,6 @@ if (everythingList) {
       head.setAttribute('aria-expanded', 'true');
       card.classList.add('is-open');
 
-      card.querySelector('img').classList.add('everything__icon');
       // everything but the paragraph moves into the head
       head.append(...[...card.children].filter((el) => el !== text), chevron);
 
@@ -330,7 +503,6 @@ if (everythingList) {
       if (!head) return;
 
       head.querySelector('.everything__chevron').remove();
-      head.querySelector('.everything__icon').classList.remove('everything__icon');
       const kids = [...head.children];
 
       card.classList.remove('is-open');
