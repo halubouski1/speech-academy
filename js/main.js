@@ -462,10 +462,10 @@ if (everythingList) {
 
       const chevron = document.createElement('img');
       chevron.className = 'everything__chevron';
-      chevron.src = 'assets/icons/chevron-everything.svg';
+      chevron.src = 'assets/icons/chevron.svg';
       chevron.alt = '';
-      chevron.width = 21;
-      chevron.height = 13;
+      chevron.width = 14;
+      chevron.height = 9;
 
       const head = document.createElement('button');
       head.type = 'button';
@@ -474,6 +474,8 @@ if (everythingList) {
       head.setAttribute('aria-expanded', 'true');
       card.classList.add('is-open');
 
+      // tagged so CSS can drop it at this width, the way .help__icon is sized
+      card.querySelector('img').classList.add('everything__icon');
       // everything but the paragraph moves into the head
       head.append(...[...card.children].filter((el) => el !== text), chevron);
 
@@ -503,6 +505,7 @@ if (everythingList) {
       if (!head) return;
 
       head.querySelector('.everything__chevron').remove();
+      head.querySelector('.everything__icon').classList.remove('everything__icon');
       const kids = [...head.children];
 
       card.classList.remove('is-open');

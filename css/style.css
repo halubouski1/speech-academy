@@ -74,6 +74,15 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'Cormorant Garamond';
+  src: url('../assets/fonts/CormorantGaramond-Bold.woff2') format('woff2'),
+       url('../assets/fonts/CormorantGaramond-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* ==========================================================================
    Variables
    ========================================================================== */
@@ -503,6 +512,10 @@ ul {
     visibility: hidden;
     opacity: 0;
     transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+.about__play-icon {
+    display: none;
 }
 
 .card__play {
@@ -1320,8 +1333,8 @@ ul {
 
 .tariffs__name {
     margin-bottom: 18px;
-    font-family: 'Helvetica Neue', Georgia, serif;
-    font-weight: 500;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 700;
     font-size: 30px;
     color: #f6f2ec;
     text-transform: uppercase;
@@ -1798,8 +1811,8 @@ body.is-locked {
 }
 
 .popup__title {
-    font-family: 'Helvetica Neue', Georgia, serif;
-    font-weight: 500;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 700;
     font-size: 40px;
     text-transform: uppercase;
     color: #f6f2ec;

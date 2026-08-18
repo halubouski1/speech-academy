@@ -878,6 +878,31 @@
         color: #fff;
     }
 
+    .about__play img, .card__play img {
+        display: none;
+    }
+
+    .about__play-icon {
+    display: block !important;
+    width: 7px !important;
+    height: 6px !important;
+    }
+
+    .card__play {
+        width: 54px;
+        height: 54px;
+    }
+
+    .about__play div, .card__play div {
+        display: grid;
+        place-items: center;
+        backdrop-filter: blur(30px);
+        width: 54px;
+        height: 54px;
+        border-radius: 100%;
+        border: 1px solid rgba(255, 255, 255, 0.35);
+    }
+
     .about__wrapper {
         display: flex;
         justify-content: space-between;
@@ -1269,67 +1294,41 @@
         text-transform: none;
     }
 
-    /* JS wraps everything except the paragraph in .everything__head,
-       so the card and its answer read as two separate boxes.
-       display: contents drops both boxes straight into this grid, which is what
-       lets a head line up with its neighbour instead of with its own answer */
+    /* JS rebuilds this list into an accordion here, one-to-one with .help__list */
     .everything__list {
-        grid-template-columns: repeat(2, 1fr);
-        column-gap: 8px;
-        /* no row gap - an answer has to sit flush under its own head, so the
-           8px between pairs is a margin on the answer instead */
-        row-gap: 0;
+        grid-template-columns: 1fr;
+        gap: 0;
     }
 
     .everything__card {
-        display: contents;
+        display: block;
+        min-height: auto;
+        padding: 0;
+        border: none;
+        background: none;
     }
 
-    /* odd cards to the left column, even ones to the right */
-    .everything__card:nth-child(odd) .everything__head,
-    .everything__card:nth-child(odd) .everything__answer {
-        grid-column: 1;
+    /* the illustrated icon is dropped at this width */
+    .everything__icon {
+        display: none;
     }
 
-    .everything__card:nth-child(even) .everything__head,
-    .everything__card:nth-child(even) .everything__answer {
-        grid-column: 2;
-    }
-
-    /* each pair of cards owns two rows - heads share the first, answers the
-       second - so both heads take the height of the taller of the two */
-    .everything__card:nth-child(-n + 2) .everything__head { grid-row: 1; }
-    .everything__card:nth-child(-n + 2) .everything__answer { grid-row: 2; }
-    .everything__card:nth-child(n + 3):nth-child(-n + 4) .everything__head { grid-row: 3; }
-    .everything__card:nth-child(n + 3):nth-child(-n + 4) .everything__answer { grid-row: 4; }
-    .everything__card:nth-child(n + 5):nth-child(-n + 6) .everything__head { grid-row: 5; }
-    .everything__card:nth-child(n + 5):nth-child(-n + 6) .everything__answer { grid-row: 6; }
-    .everything__card:nth-child(n + 7):nth-child(-n + 8) .everything__head { grid-row: 7; }
-    .everything__card:nth-child(n + 7):nth-child(-n + 8) .everything__answer { grid-row: 8; }
-    .everything__card:nth-child(n + 9) .everything__head { grid-row: 9; }
-    .everything__card:nth-child(n + 9) .everything__answer { grid-row: 10; }
-
-    .everything .container {
-        padding-left: 10px;
-        padding-right: 10px;
-    }
-
+    /* negative margin pulls the rule out to the screen edges,
+       the matching padding keeps the content inset as before */
     .everything__head {
-        z-index: 1;
         display: flex;
-        flex-direction: column;
         align-items: center;
-        gap: 14px;
-        height: 100%;
-        width: 100%;
-        min-height: 165px;
-        padding: 22px 14px 16px;
-        border: 1px solid rgba(214, 168, 107, 0.35);
-        border-radius: 10px;
-        background: linear-gradient(199.91deg,
-            rgba(0, 0, 0, 0.95) 48%,
-            rgba(214, 168, 107, 0) 100%);
-        text-align: center;
+        gap: 17px;
+        margin-left: calc(var(--container-pad) * -1);
+        margin-right: calc(var(--container-pad) * -1);
+        width: calc(100% + var(--container-pad) * 2);
+        padding: 18px 25px;
+        align-items: center;
+        border: none;
+        border-bottom: 1px solid rgba(214, 168, 107, 0.35);
+        border-radius: 0;
+        background: none;
+        text-align: left;
         cursor: pointer;
     }
 
@@ -1337,40 +1336,77 @@
         display: none;
     }
 
-    .everything__head img:not(.everything__chevron) {
-        width: 72px;
-        height: 72px;
+    .everything__card img {
+    margin-top: 0;
     }
 
     .everything__name {
+        flex-grow: 1;
         margin-top: 0;
         font-size: 16px;
     }
 
-    /* always sits at the foot of the card, whatever the name wraps to */
     .everything__chevron {
         flex-shrink: 0;
-        margin-top: auto;
+        transform: rotate(-90deg);
         transition: transform 0.3s ease;
     }
 
     .everything__card.is-open .everything__chevron {
-        transform: rotate(180deg);
+        transform: rotate(0);
     }
 
     /* 0fr -> 1fr resolves to the paragraph's real height, so nothing is ever
-       clipped and it keeps up if the text reflows */
+       clipped. The bleed lives here, outside the overflow that clips it */
     .everything__answer {
-        position: relative;
-        z-index: -1;
         display: grid;
         grid-template-rows: 0fr;
-        margin-bottom: 8px;
+        margin-left: calc(var(--container-pad) * -1);
         transition: grid-template-rows 0.4s ease;
     }
 
     .everything__card.is-open .everything__answer {
         grid-template-rows: 1fr;
+    }
+
+    /* no padding of its own, so it really can reach zero height */
+    .everything__answer-inner {
+        min-height: 0;
+        overflow: hidden;
+    }
+
+    .everything__text {
+        position: relative;
+        margin: 0;
+        padding: 15px 30px 16px 25px;
+        border: none;
+        border-radius: 0;
+        background: none;
+        font-weight: 400;
+        font-size: 13px;
+    }
+
+    /* bottom rule, stopping short of the right edge */
+    .everything__text::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: calc(100% - 34px);
+        height: 1px;
+        background-color: rgba(214, 168, 107, 0.5);
+    }
+
+    /* the angled cut: joins the end of that rule to the top right corner */
+    .everything__text::after {
+        content: '';
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        width: 34px;
+        height: 100%;
+        background-color: rgba(214, 168, 107, 0.5);
+        clip-path: polygon(100% 0, 100% 2px, 0 100%, 0 calc(100% - 2px));
     }
 
     .everything__note {
@@ -1381,25 +1417,9 @@
         text-align: left;
     }
 
+    /* sets the variable so the bleeds above follow this padding */
     .everything .container {
-        --container-pad: 26px;
-    }
-
-    /* no padding of its own, so it really can reach zero height */
-    .everything__answer-inner {
-        min-height: 0;
-        overflow: hidden;
-    }
-
-    .everything__text {
-        height: 100%;
-        font-size: 11px;
-        margin: 0 10px;
-        padding: 16px 14px;
-        border: 1px solid rgba(214, 168, 107, 0.35);
-        border-radius: 0 0 10px 10px;
-        border-top: none;
-        background: linear-gradient(180.25deg, rgba(67, 49, 26, 0) 0.22%, rgba(169, 125, 66, 0.42) 99.78%);
+        --container-pad: 35px;
     }
 
     /* tariffs */
@@ -1678,7 +1698,7 @@
 
     .transformation__list {
         max-width: 100%;
-        gap: 14px;
+        gap: 25px;
     }
 
     .transformation__item {
